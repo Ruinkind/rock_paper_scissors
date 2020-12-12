@@ -1,2 +1,4 @@
 # rock_paper_scissors
-Odin Project - Rock Paper Scissors
+Rock Paper Scissors
+
+https://ruinkind.github.io/rock_paper_scissors/
