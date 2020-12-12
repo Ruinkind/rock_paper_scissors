@@ -8,16 +8,19 @@ let playerSelection,
 
 // Function for accepting player choice.
 function playerPlay() {
-  // Prompting the player for their choice, converting to lower case and removing white space, no matter their input.
-  playerSelection = prompt("Enter your choice (rock, paper, scissors): ");
-  playerSelection = playerSelection.toLowerCase();
-  playerSelection = playerSelection.trim();
-  // Verify the player input is valid, notify if not.
-  if (playerSelection == "rock" || playerSelection == "paper" || playerSelection == "scissors") {
-    return playerSelection
-  } else {
-    playerSelection = "Invalid choice, please choose \"rock\", \"paper\", or \"scissors\"";
-    return playerSelection
+  // Boolean for controlling the while loop, waiting for proper player input.
+  let waiting = true;
+  while (waiting) {
+    // Prompting the player for their choice, converting to lower case and removing white space.
+    playerSelection = prompt("Enter your choice (rock, paper, scissors): ")
+    playerSelection = playerSelection.toLowerCase()
+    playerSelection = playerSelection.trim()
+    // Verify the player input is valid, notify if not.
+    if (playerSelection == "rock" || playerSelection == "paper" || playerSelection == "scissors") {
+      return playerSelection;
+    } else {
+      alert("Invalid choice, please choose \"rock\", \"paper\", or \"scissors\"");
+    }
   }
 }
 
