@@ -1,6 +1,10 @@
-// Global scope variables to hold computerSelection & playerSelection results for use throughout the game.
+// Global variables to hold computerSelection & playerSelection results for use throughout the game.
 let playerSelection,
-    computerSelection;
+    computerSelection,
+// Global variables for recording the game score.
+    scorePlayer = 0,
+    scoreComputer = 0,
+    scoreDraw = 0;
 
 // Function for accepting player choice.
 function playerPlay() {
@@ -36,16 +40,19 @@ function computerPlay() {
 function playRound(playerSelection, computerSelection) {
   // Expressions for handling the end of round, depending on the outcome.
   let roundDraw = () => {
+    score()
     let result = playerSelection.toUpperCase() + " vs " + computerSelection.toUpperCase() + ", round is a draw!"
-    return result
+    return result + "\n" + score("request")
   };
   let roundWin = () => {
+    score(playerSelection)
     let result = roundWin = playerSelection.toUpperCase() + " vs " + computerSelection.toUpperCase() +  ", you win!"
-    return result
+    return result + "\n" + score("request")
   };
   let roundLose = () => {
+    score(computerSelection)
     let result = roundLose = playerSelection.toUpperCase() + " vs " + computerSelection.toUpperCase() +  ", you lose!";
-    return result
+    return result + "\n" + score("request")
   };
   // Round conditions dictating Win/Loss/Tie.
   if (playerSelection == computerSelection) {
@@ -71,17 +78,46 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
-// Function for calling the game to start.
-function game() {
-  // Calling the playerSelection & computerSelection functions for their input.
-  playerSelection = playerPlay();
-  computerSelection = computerPlay();
-  // Check for invalid player input.
-  if (playerSelection.length > 8) {
-    return playerSelection;
-    // Else resume the game.
+// Function for managing the score.
+function score(result) {
+  // Parameters for requesting score, and resetting the score.
+  if (result == "request") {
+    let request = "Wins: " + scorePlayer + "  Losses: " + scoreComputer + "  Draws: " + scoreDraw;
+    return request;
+  } else if (result == "reset") {
+    scorePlayer = 0;
+    scoreComputer = 0;
+    scoreDraw = 0;
+    return score("request");
+    // Depending on the parameter input, the score increments.
+  } else if (result == playerSelection) {
+    scorePlayer++;
+  } else if (result == computerSelection) {
+    scoreComputer++;
   } else {
-    // Calling one round of play, inputing results of playerSelection & computerSelection.
+    scoreDraw++;
+  }
+}
+
+// Function for calling the game to start.
+function game(round) {
+  // Expression for starting a round, waiting for player input & computer input.
+  let roundInput = () => {
+    playerSelection = playerPlay()
+    computerSelection = computerPlay()
+  };
+  // If there are rounds specified, loop until satisfied.
+  if (round) {
+    score("reset");
+    while (round) {
+      console.log(round);
+      roundInput();
+      console.log(playRound(playerSelection, computerSelection));
+      round--;
+    }
+  // Else play a single round.
+  } else {
+    roundInput();
     return playRound(playerSelection, computerSelection);
   }
 }
