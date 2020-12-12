@@ -1,6 +1,6 @@
 // Global variables to hold computerSelection & playerSelection results for use throughout the game.
-let playerSelection = undefined,
-    computerSelection = undefined,
+let playerSelection,
+    computerSelection,
 // Global variables for recording the game score.
     scorePlayer = 0,
     scoreComputer = 0,
@@ -110,29 +110,37 @@ function score(result) {
 }
 
 // Function for calling the game to start.
-function game(round) {
-  // Expression for starting a round, waiting for player input & computer input.
-  let roundInput = () => {
-    playerSelection = playerPlay()
-    computerSelection = computerPlay()
-  };
-  // If there are rounds specified, loop until satisfied.
-  if (round) {
-    score("reset");
-    while (round) {
-      console.log(round);
-      roundInput();
-      // If cancelled, game ends.
-      if (playerSelection === null) {
-        console.log("Game cancelled");
-        break;
+function game() {
+  // Prompt the player for the amount of rounds & call the gameStart function.
+  let round = prompt("How many rounds would you like to play?  Enter a number. ");
+  // If cancelled, game ends.
+  if (round === null) {
+    console.log("Game cancelled.");
+    alert("Game cancelled.");
+    return;
+  }
+  gameStart(round);
+  // Starts the game with specified rounds.
+  function gameStart(round) {
+    // Calling for player input & computer input.
+    let roundInput = () => {
+      playerSelection = playerPlay()
+      computerSelection = computerPlay()
+    };
+    // If there are rounds specified, loop until satisfied.
+    if (round) {
+      score("reset");
+      while (round) {
+        console.log(round);
+        roundInput();
+        // If cancelled, game ends.
+        if (playerSelection === null) {
+          console.log("Game cancelled.");
+          break;
+        }
+        console.log(playRound(playerSelection, computerSelection));
+        round--;
       }
-      console.log(playRound(playerSelection, computerSelection));
-      round--;
     }
-  // Else play a single round.
-  } else {
-    roundInput();
-    return playRound(playerSelection, computerSelection);
   }
 }
