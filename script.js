@@ -1,6 +1,6 @@
 // Global variables to hold computerSelection & playerSelection results for use throughout the game.
-let playerSelection,
-    computerSelection,
+let playerSelection = undefined,
+    computerSelection = undefined,
 // Global variables for recording the game score.
     scorePlayer = 0,
     scoreComputer = 0,
@@ -11,15 +11,22 @@ function playerPlay() {
   // Boolean for controlling the while loop, waiting for proper player input.
   let waiting = true;
   while (waiting) {
-    // Prompting the player for their choice, converting to lower case and removing white space.
+    // Prompting the player for their choice.
     playerSelection = prompt("Enter your choice (rock, paper, scissors): ")
-    playerSelection = playerSelection.toLowerCase()
-    playerSelection = playerSelection.trim()
-    // Verify the player input is valid, notify if not.
-    if (playerSelection == "rock" || playerSelection == "paper" || playerSelection == "scissors") {
+    // If cancelled, game ends.
+    if (playerSelection === null) {
+      alert("Game cancelled.")
       return playerSelection;
     } else {
-      alert("Invalid choice, please choose \"rock\", \"paper\", or \"scissors\"");
+      // Convert player input to lower case & trim white space for easier handling.
+      playerSelection = playerSelection.toLowerCase()
+      playerSelection = playerSelection.trim()
+      // Verify the player input is valid, notify if not.
+      if (playerSelection == "rock" || playerSelection == "paper" || playerSelection == "scissors") {
+        return playerSelection;
+      } else {
+        alert("Invalid choice, please choose \"rock\", \"paper\", or \"scissors\"");
+      }
     }
   }
 }
@@ -115,6 +122,11 @@ function game(round) {
     while (round) {
       console.log(round);
       roundInput();
+      // If cancelled, game ends.
+      if (playerSelection === null) {
+        console.log("Game cancelled");
+        break;
+      }
       console.log(playRound(playerSelection, computerSelection));
       round--;
     }
